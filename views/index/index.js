@@ -18,6 +18,7 @@ async function displayMessages() {
         const response = await axios.get('http://localhost:7000/message/get-messages')
         const messages = response.data.messages;
         const displayDiv = document.getElementById("display");
+        displayDiv.innerHTML = '';
 
         for (let i = 0; i < messages.length; i++) {
             const name = messages[i].name;
@@ -33,6 +34,5 @@ async function displayMessages() {
 
 
 document.addEventListener('DOMContentLoaded', async () => {
-    displayMessages();
-
+    setInterval(displayMessages,1000);
 });
