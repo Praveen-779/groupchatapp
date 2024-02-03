@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const sequelize = require('../util/database');
+const bcrypt = require('bcrypt');
 
 exports.signUp = async (req,res,next) => {
     const name = req.body.name;
@@ -22,11 +23,13 @@ exports.signUp = async (req,res,next) => {
             return res.status(409).json({message: 'User already exists'});
         }
 
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password,saltRounds);
         const response = await User.create({
             name:name,
             email:email,
             phonenumber:phoneNumber,
-            password:password
+            password:hashedPassword
         });
         res.status(200).json({message : 'Sign Up successfull'});
     } catch(err) {
