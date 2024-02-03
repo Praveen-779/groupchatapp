@@ -26,11 +26,11 @@ app.use(express.json());
 app.use('/user',userRoutes);
 app.use('/message',messageRoutes);
 
-app.use((req, res) => {
-    console.log(`${req.url}`);
-    const filePath = path.join(__dirname, 'views', `${req.url}`);
-    res.sendFile(filePath);
-});
+// app.use((req, res) => {
+//     console.log(`${req.url}`);
+//     const filePath = path.join(__dirname, 'views', `${req.url}`);
+//     res.sendFile(filePath);
+// });
 
 User.hasMany(Message);
 Message.belongsTo(User);

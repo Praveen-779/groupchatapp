@@ -5,4 +5,6 @@ const auth = require('../middleware/auth');
 
 router.post('/postmessage',auth.authenticate, messageController.postMessage);
 
+router.get('/get-messages',messageController.getMessages);
+
 module.exports = router;

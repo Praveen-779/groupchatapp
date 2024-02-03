@@ -9,6 +9,7 @@ const Message = sequelize.define('message', {
         allowNull: false,
         primaryKey: true
     },
+    name: Sequelize.STRING,
     message : Sequelize.STRING
     
 })
