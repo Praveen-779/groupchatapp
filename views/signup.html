@@ -4,19 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>signUp</title>
 </head>
 
-<body>
-    <form style="text-align:center;">
+<body style="text-align:center;">
+    <form onsubmit="signUp(event)" >
         <label for="name">Enter Name</label><br>
         <input type="text" id="name" name="name"><br><br>
         <label for="email">Enter Email</label><br>
         <input type="email" id="email" name="email"><br><br>
         <label for="phonenumber">Enter Phone Number</label><br>
-        <input type="number" id="phonenumber" name="phonenumber"><br>
+        <input type="number" id="phonenumber" name="phonenumber"><br><br>
+        <label for="password">Enter Password</label><br>
+        <input type="password" name="password" id="password"><br><br>
         <button type="submit">Sign Up</button>
-    </form>
+    </form><br><br>
+    <div id="displayerror" ></div>
+    <script>
+        async function signUp(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phonenumber = document.getElementById('phonenumber').value;
+            const password = document.getElementById('password').value;
+            const obj = {
+                name: name,
+                email: email,
+                phonenumber: phonenumber,
+                password : password
+            }
+            try {
+                await axios.post('http://localhost:7000/user/signup', obj);
+                alert('sign up successfull,now please login');
+            } catch (err) {
+                console.log(err.response.data.message)
+                document.getElementById('displayerror').innerHTML = `<div style= " color:red;"> ${err.response.data.message}</div>`;
+            }
+
+        }
+    </script>
 
 </body>
 
