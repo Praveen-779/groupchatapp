@@ -6,7 +6,7 @@ async function login(event) {
     }
     try {
       const response =  await axios.post('http://localhost:7000/user/login',obj)
-      console.log(response.data.token);
+      localStorage.setItem('token',response.data.token);
       alert('user login in success');
       window.location.href = '../index/index.html'
 
