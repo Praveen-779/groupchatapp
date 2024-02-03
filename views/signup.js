@@ -15,7 +15,7 @@ async function signUp(event) {
         alert('sign up successfull,now please login');
     } catch (err) {
         console.log(err.response.data.message)
-        document.getElementById('displayerror').innerHTML = `<div style= " color:red;"> ${err.response.data.message}</div>`;
+        alert(err.response.data.message);
     }
 
 }
