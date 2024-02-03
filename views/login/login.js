@@ -4,5 +4,13 @@ async function login(event) {
         email : document.getElementById('email').value,
         password : document.getElementById('password').value
     }
-    console.log(obj);
+    try {
+      const response =  await axios.post('http://localhost:7000/user/login',obj)
+      console.log(response.data.token);
+      alert('user login in success');
+    } catch(err) {
+        console.log(err);
+        alert(err.response.data.message);
+    }
+    
 }

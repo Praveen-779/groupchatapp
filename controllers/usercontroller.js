@@ -1,13 +1,13 @@
 const User = require('../models/user');
 const sequelize = require('../util/database');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 exports.signUp = async (req,res,next) => {
     const name = req.body.name;
     const email = req.body.email;
     const phoneNumber = req.body.phonenumber;
     const password = req.body.password;
-    console.log(name,email,phoneNumber,password);
 
     try {
         if(!name || !email || !phoneNumber || !password) {
@@ -37,4 +37,40 @@ exports.signUp = async (req,res,next) => {
         res.status(500).json({err : err});
     }
     
+}
+
+
+
+exports.login = async(req,res,next) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    console.log(email,password);
+    
+    try {
+        if(!email || !password) {
+            return res.status(400).json({message : 'please fill all the details'});
+        }
+
+        const user = await User.findOne({where : {email : email}});
+
+        if(!user) {
+            return res.status(404).json({message : 'user not found'});
+        }
+        if(user.email === email) {
+            const bcryptPassword = await bcrypt.compare(password,user.password);
+
+            if(bcryptPassword) {
+               return res.status(200).json({message : 'user login successfull', token : generateJwtToken(user.id)});
+            }
+            return res.status(401).json({message: 'password incorrect'});
+        }
+    } catch(err) {
+        console.log(err);
+       return res.status(500).json({err : err, message : 'something went wrong'});
+    }
+
+}
+
+function generateJwtToken(id) {
+    return jwt.sign({userId : id}, 'secretKey');
 }
