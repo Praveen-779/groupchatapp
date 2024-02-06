@@ -11,7 +11,7 @@ async function signUp(event) {
         password : password
     }
     try {
-        await axios.post('http://localhost:7000/user/signup', obj);
+        await axios.post('http://51.20.255.35:7000/user/signup', obj);
         alert('sign up successfull,now please login');
         document.getElementById('signupform').reset(); 
     } catch (err) {

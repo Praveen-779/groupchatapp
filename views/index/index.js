@@ -1,3 +1,4 @@
+const host = '51.20.255.35';
 async function postMessage(event) {
     try {
         event.preventDefault();
@@ -6,7 +7,7 @@ async function postMessage(event) {
         }
         const token = localStorage.getItem('token');
         const groupId = localStorage.getItem('groupid');
-        const response = await axios.post(`http://localhost:7000/message/postmessage/${groupId}`, obj, { headers: { 'Authorization': token } })
+        const response = await axios.post(`http://${host}:7000/message/postmessage/${groupId}`, obj, { headers: { 'Authorization': token } })
         document.getElementById('message').value = '';
         enterGroup()
     } catch (err) {
@@ -28,7 +29,7 @@ async function createGroup() {
             groupname: document.getElementById('groupname').value
         }
         const token = localStorage.getItem('token');
-        const response = await axios.post('http://localhost:7000/group/creategroup', obj, { headers: { 'Authorization': token } });
+        const response = await axios.post(`http://${host}:7000/group/creategroup`, obj, { headers: { 'Authorization': token } });
         document.getElementById('groupname').value = '';
         displayGroups()
     } catch (err) {
@@ -40,7 +41,7 @@ async function displayGroups() {
     try {
         const token = localStorage.getItem('token');
         const displayGroupsDiv = document.getElementById('displaygroups');
-        const response = await axios.get('http://localhost:7000/group/getgroups', { headers: { 'Authorization': token } });
+        const response = await axios.get(`http://${host}:7000/group/getgroups`, { headers: { 'Authorization': token } });
         const groups = response.data.groups;
         displayGroupsDiv.innerHTML = '';
 
@@ -68,7 +69,7 @@ async function enterGroup(groupId) {
         } else {
             groupId = localStorage.getItem('groupid');
         }
-        const response = await axios.get(`http://localhost:7000/message/get-messages/?groupid=${groupId}`);
+        const response = await axios.get(`http://${host}:7000/message/get-messages/?groupid=${groupId}`);
         const messages = response.data.messages;
         const group = response.data.group;
         // alert(`you entered ${group.groupname}`)
@@ -97,7 +98,7 @@ async function invite() {
     try {
         const token = localStorage.getItem('token');
         const groupId = localStorage.getItem('groupid');
-        const response = await axios.get(`http://localhost:7000/admin/isadmin/${groupId}`, { headers: { 'Authorization': token } })
+        const response = await axios.get(`http://${host}:7000/admin/isadmin/${groupId}`, { headers: { 'Authorization': token } })
         const isAdmin = response.data.isAdmin;
         const displayDiv = document.getElementById('inviteothers')
         displayDiv.innerHTML = '';
@@ -137,7 +138,7 @@ async function displayRemoveUsers() {
     try {
         const token = localStorage.getItem('token');
         const groupId = localStorage.getItem('groupid');
-        const response = await axios.get(`http://localhost:7000/group/get-users/${groupId}`, { headers: { 'Authorization': token } })
+        const response = await axios.get(`http://${host}:7000/group/get-users/${groupId}`, { headers: { 'Authorization': token } })
         if (response.data.message) {
             alert(response.data.message);
         } else {
@@ -165,7 +166,7 @@ async function displayRemoveUsers() {
 async function removeUserFromGroup(id) {
     try {
         const groupId = localStorage.getItem('groupid');
-        const response = await axios.delete(`http://localhost:7000/group/removeUser/?groupId=${groupId}&id=${id}`)
+        const response = await axios.delete(`http://${host}:7000/group/removeUser/?groupId=${groupId}&id=${id}`)
         alert(response.data.message);
         document.getElementById('removeuser').innerHTML='';
     } catch(err) {
@@ -183,7 +184,7 @@ async function makeAdmin() {
         button.addEventListener('click', async () => {
             const token = localStorage.getItem('token');
             const groupId = localStorage.getItem('groupid');
-            const response = await axios.get(`http://localhost:7000/group/get-users/${groupId}`, { headers: { 'Authorization': token } })
+            const response = await axios.get(`http://${host}:7000/group/get-users/${groupId}`, { headers: { 'Authorization': token } })
             const message = response.data.message
             if (message) {
                 alert(message);
@@ -211,7 +212,7 @@ async function makeAdmin() {
 
 async function makeAsAdmin(id) {
     const groupId = localStorage.getItem('groupid');
-    const response = await axios.get(`http://localhost:7000/admin/make-admin/?groupid=${groupId}&id=${id}`)
+    const response = await axios.get(`http://${host}:7000/admin/make-admin/?groupid=${groupId}&id=${id}`)
     alert(response.data.message)
 }
 
@@ -219,7 +220,7 @@ async function makeAsAdmin(id) {
 async function displayInvite() {
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:7000/user/get-users', { headers: { 'Authorization': token } })
+        const response = await axios.get(`http://${host}:7000/user/get-users`, { headers: { 'Authorization': token } })
         const users = response.data.users;
         const inviteDiv = document.getElementById('invite');
         inviteDiv.innerHTML = '';
@@ -243,7 +244,7 @@ async function displayInvite() {
 async function inviteToGroup(id) {
     const token = localStorage.getItem('token');
     const groupid = localStorage.getItem('groupid');
-    const response = await axios.post(`http://localhost:7000/invite/post-invite/?id=${id}&groupid=${groupid}`, {}, { headers: { 'Authorization': token } })
+    const response = await axios.post(`http://${host}:7000/invite/post-invite/?id=${id}&groupid=${groupid}`, {}, { headers: { 'Authorization': token } })
     console.log(response.data.message);
     alert(response.data.message);
     invite()

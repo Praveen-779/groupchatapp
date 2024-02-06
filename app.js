@@ -36,11 +36,11 @@ app.use('/group',groupRoutes);
 app.use('/invite',inviteRoutes);
 app.use('/admin',adminRoutes);
 
-// app.use((req, res) => {
-//     console.log(`${req.url}`);
-//     const filePath = path.join(__dirname, 'views', `${req.url}`);
-//     res.sendFile(filePath);
-// });
+app.use((req, res) => {
+    console.log(`${req.url}`);
+    const filePath = path.join(__dirname, 'views', `${req.url}`);
+    res.sendFile(filePath);
+});
 
 User.hasMany(Message);
 Message.belongsTo(User);
@@ -50,12 +50,6 @@ Group.belongsToMany(User, { through : UserGroup});
 
 Group.hasMany(Message);
 Message.belongsTo(Group);
-
-// IsAdmin.belongsTo(User);
-// IsAdmin.belongsTo(Group);
-
-// User.belongsToMany(Group, {through : IsAdmin});
-// Group.belongsToMany(User,{through: IsAdmin});
 
 
 sequelize.sync()

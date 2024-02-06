@@ -5,7 +5,7 @@ async function login(event) {
         password : document.getElementById('password').value
     }
     try {
-      const response =  await axios.post('http://localhost:7000/user/login',obj)
+      const response =  await axios.post('http://51.20.255.35:7000/user/login',obj)
       localStorage.setItem('token',response.data.token);
       alert('user login in success');
       localStorage.setItem('groupid','');
@@ -14,7 +14,6 @@ async function login(event) {
     } catch(err) {
         console.log(err);
         alert(err.response.data.message);
-        
     }
     
 }
