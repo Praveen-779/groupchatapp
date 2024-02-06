@@ -1,4 +1,4 @@
-const host = '51.20.255.35';
+const host = '3.51.72.167';
 async function postMessage(event) {
     try {
         event.preventDefault();

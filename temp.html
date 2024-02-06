@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Sharing</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+    <button id="shareButton">Share File</button>
+
+    <script>
+        document.getElementById('shareButton').addEventListener('click', function() {
+    document.getElementById('fileInput').click();
+});
+
+document.getElementById('fileInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        shareFile(file);
+    }
+});
+
+function shareFile(file) {
+    // Here, you can implement the file sharing functionality
+    // For example, you can upload the file to a server and generate a shareable link
+    // Alternatively, you can use browser APIs like Web Share API if supported
+    // This function is just a placeholder, replace it with your actual implementation
+    console.log('Sharing file:', file.name);
+}
+
+    </script>
+</body>
+</html>

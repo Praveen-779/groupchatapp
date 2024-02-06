@@ -1,7 +1,7 @@
 async function displayInviteHistory() {
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://51.20.255.35t:7000/invite/get-invitedhistory`,{ headers: { 'Authorization': token } })
+        const response = await axios.get(`http://3.51.72.167:7000/invite/get-invitedhistory`,{ headers: { 'Authorization': token } })
         const inviteHistory = response.data.inviteHistory;
         
         const inviteHistoryDiv = document.getElementById('inviteHistory');

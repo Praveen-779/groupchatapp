@@ -51,6 +51,7 @@ Group.belongsToMany(User, { through : UserGroup});
 Group.hasMany(Message);
 Message.belongsTo(Group);
 
+console.log(process.env.PORT);
 
 sequelize.sync()
 .then(result => {

@@ -1,7 +1,7 @@
 async function displayJoinRequest() {
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:7000/invite/get-joinrequests`, { headers: { 'Authorization': token } })
+        const response = await axios.get(`http://3.51.72.167:7000/invite/get-joinrequests`, { headers: { 'Authorization': token } })
         const invites = response.data.invites;
         console.log(invites);
         const joinRequestDiv = document.getElementById('joinrequest');
@@ -39,14 +39,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function accept(id) {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`http://51.20.255.35:7000/invite/accept-invite/${id}`, { headers: { 'Authorization': token } })
+    const response = await axios.get(`http://3.51.72.167:7000/invite/accept-invite/${id}`, { headers: { 'Authorization': token } })
     alert(response.data.message);
     displayJoinRequest()
 }
 
 async function decline(id) {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`http://51.20.255.35:7000/invite/decline-invite/${id}`, { headers: { 'Authorization': token } })
+    const response = await axios.get(`http://3.51.72.167:7000/invite/decline-invite/${id}`, { headers: { 'Authorization': token } })
     alert(response.data.message);
     displayJoinRequest()
 
