@@ -1,5 +1,5 @@
 const User = require('../models/user');
-// const sequelize = require('../util/database');
+const Sequelize = require('sequelize')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -73,15 +73,20 @@ exports.login = async (req, res, next) => {
 
 exports.getUser = async (req, res, next) => {
     try {
-        console.log('inside getuser');
-        const users = await User.findAll();
+        const users = await User.findAll({
+            where: {
+                id: {
+                    [Sequelize.Op.ne]: req.user.id,
+                },
+            },
+        });
         return res.status(200).json({ users });
-    } catch(err) {
+    } catch (err) {
         console.log(err);
-        return res.status(500).json({err});
+        return res.status(500).json({ err });
     }
-    
-}
+};
+
 
 function generateJwtToken(id) {
     return jwt.sign({ userId: id }, 'secretKey');

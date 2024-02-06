@@ -11,6 +11,7 @@ const Message = require('./models/messages');
 const UserGroup = require('./models/usergroup');
 const Group = require('./models/group');
 const Invite = require('./models/invite');
+const IsAdmin = require('./models/isadmin');
 
 const app = express();
 
@@ -18,6 +19,7 @@ const userRoutes = require('./routes/user');
 const messageRoutes = require('./routes/message');
 const groupRoutes = require('./routes/group');
 const inviteRoutes = require('./routes/invite');
+const adminRoutes = require('./routes/admin');
 
 app.use(
     cors({
@@ -32,6 +34,7 @@ app.use('/user',userRoutes);
 app.use('/message',messageRoutes);
 app.use('/group',groupRoutes);
 app.use('/invite',inviteRoutes);
+app.use('/admin',adminRoutes);
 
 // app.use((req, res) => {
 //     console.log(`${req.url}`);
@@ -48,8 +51,14 @@ Group.belongsToMany(User, { through : UserGroup});
 Group.hasMany(Message);
 Message.belongsTo(Group);
 
+// IsAdmin.belongsTo(User);
+// IsAdmin.belongsTo(Group);
 
-sequelize.sync( )
+// User.belongsToMany(Group, {through : IsAdmin});
+// Group.belongsToMany(User,{through: IsAdmin});
+
+
+sequelize.sync()
 .then(result => {
     app.listen(process.env.port);
 })

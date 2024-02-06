@@ -58,12 +58,14 @@
         const token = localStorage.getItem('token');
         const response = await axios.get(`http://localhost:7000/invite/accept-invite/${id}`, { headers: { 'Authorization': token } })
         alert(response.data.message);
+        displayJoinRequest()
     }
 
     async function decline(id) {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:7000/invite/accept-invite/${id}`, { headers: { 'Authorization': token } })
+        const response = await axios.get(`http://localhost:7000/invite/decline-invite/${id}`, { headers: { 'Authorization': token } })
         alert(response.data.message);
+        displayJoinRequest()
 
     }
 </script>

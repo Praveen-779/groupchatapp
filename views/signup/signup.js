@@ -13,6 +13,7 @@ async function signUp(event) {
     try {
         await axios.post('http://localhost:7000/user/signup', obj);
         alert('sign up successfull,now please login');
+        document.getElementById('signupform').reset(); 
     } catch (err) {
         console.log(err.response.data.message)
         alert(err.response.data.message);

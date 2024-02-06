@@ -8,6 +8,7 @@ async function login(event) {
       const response =  await axios.post('http://localhost:7000/user/login',obj)
       localStorage.setItem('token',response.data.token);
       alert('user login in success');
+      localStorage.setItem('groupid','');
       window.location.href = '../index/index.html'
 
     } catch(err) {

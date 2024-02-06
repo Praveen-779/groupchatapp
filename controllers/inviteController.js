@@ -32,7 +32,7 @@ exports.postInvite = async (req,res,next) => {
            })
            return res.status(200).json({message : 'user invited successfully' })
         }
-        
+
         if(user.status === 'pending') {
             return res.status(200).json({message : 'user already invited'});
         }
@@ -107,7 +107,7 @@ exports.declineInvite = async(req,res,next) => {
             status: 'pending'
         }})
         if(invite) {
-            await invite.update({status : 'Declined'})
+            await invite.destroy()
             return res.status(200).json({message : 'You Declined Invite'})
         }
         return res.status(404).json({message : 'invite not found'});
