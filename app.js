@@ -55,6 +55,6 @@ console.log(process.env.PORT);
 
 sequelize.sync()
 .then(result => {
-    app.listen(process.env.port);
+    app.listen(process.env.PORT);
 })
 .catch(err => console.log(err))
