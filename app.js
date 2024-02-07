@@ -3,9 +3,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
 const path = require('path');
-// const multer = require('multer');
+const cron = require('node-cron');
 
 const sequelize = require('./util/database');
+const scheduler = require('./util/scheduler');
 
 const User = require('./models/user');
 const Message = require('./models/messages');
@@ -24,14 +25,7 @@ const inviteRoutes = require('./routes/invite');
 const adminRoutes = require('./routes/admin');
 const sendfileRoutes = require('./routes/sendfile');
 
-app.use(
-    cors({
-        origin: '*'
-    })
-);
-
-// const upload = multer({ dest: 'uploads/' });
-
+app.use(cors({origin: '*' }));
 
 app.use(express.json());
 
@@ -64,3 +58,7 @@ sequelize.sync()
     app.listen(process.env.PORT);
 })
 .catch(err => console.log(err))
+
+cron.schedule('0 0 * * *', () => {
+    scheduler.moveOldChatsToArchieved()
+})
