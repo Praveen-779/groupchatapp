@@ -66,8 +66,8 @@
         <div id="doAdmin"></div><br>
         <div id="deleteusers"></div>
         <div id="removeuser"></div>
-        
-        </div>
+
+    </div>
     </div>
 
     <div id="center-panel">
@@ -75,16 +75,25 @@
         <div id="joined">
             <p>You Joined</p>
         </div>
-        <div id="display"></div>
+        <div id="display">Chats</div><br><br>
+        <div id="multimedia">MultiMedia Files</div>
         <div id="sendmessage" style="background-color:rgb(209, 203, 178)">
             <form onsubmit="postMessage(event)">
                 <input type="text" id="message" name="message">
                 <button type="submit">SEND</button>
             </form>
         </div>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" name="file" id="fileInput">
+            <button type="submit">Upload File</button>
+        </form>
+        <div id="result"></div>
     </div>
 
-    <script src="./index.js"></script>
+
+    <script src="./index.js">
+        
+    </script>
 </body>
 
 </html>

@@ -1,4 +1,56 @@
 const host = '13.51.72.167';
+
+document.getElementById('uploadForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem('token');
+    const groupId = localStorage.getItem('groupid');
+
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+    if (file) {
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await axios.post(`http://${host}:7000/file/sendfile`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            const url = response.data.url;
+            await axios.post(`http://${host}:7000/file/posturl/${groupId}`, {url}, { headers: { 'Authorization': token } })
+            displayMedia()
+
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            document.getElementById('result').textContent = 'Error uploading file';
+        }
+    } else {
+        document.getElementById('result').textContent = 'Please select a file to upload';
+    }
+});
+
+async function displayMedia() {
+    try {
+        const groupId = localStorage.getItem('groupid');
+        const response = await axios.get(`http://${host}:7000/file/get-file/${groupId}`)
+        const multimedia = response.data.multimedia;
+        const multimediaDiv = document.getElementById('multimedia');
+        multimediaDiv.innerHTML = '';
+
+        for(let i = 0; i < multimedia.length; i++) {
+            const p = document.createElement('p');
+            p.innerHTML = `${multimedia[i].username}  : <a href="${multimedia[i].url}" target="_blank">Media Link</a>`
+            multimediaDiv.appendChild(p);
+            
+        }
+       
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+
 async function postMessage(event) {
     try {
         event.preventDefault();
@@ -20,6 +72,7 @@ async function initializePage() {
     displayGroups();
     invite();
     enterGroup();
+    displayMedia();
 }
 document.addEventListener('DOMContentLoaded', initializePage);
 
@@ -69,10 +122,10 @@ async function enterGroup(groupId) {
         } else {
             groupId = localStorage.getItem('groupid');
         }
+        displayMedia()
         const response = await axios.get(`http://${host}:7000/message/get-messages/?groupid=${groupId}`);
         const messages = response.data.messages;
         const group = response.data.group;
-        // alert(`you entered ${group.groupname}`)
 
         const h5 = document.createElement('h2');
         const displayDiv = document.getElementById('display');
@@ -145,14 +198,14 @@ async function displayRemoveUsers() {
             const users = response.data.users;
             const deleteUsersDiv = document.getElementById('removeuser');
             deleteUsersDiv.innerHTML = '';
-            
+
             for (let i = 0; i < users.length; i++) {
                 const name = users[i].name;
                 const p = document.createElement('p');
                 p.innerHTML = `${name} `
                 const button = document.createElement('button');
                 button.innerText = 'Remove'
-                button.addEventListener('click',() => removeUserFromGroup(users[i].id))
+                button.addEventListener('click', () => removeUserFromGroup(users[i].id))
                 p.appendChild(button);
                 deleteUsersDiv.appendChild(p);
             }
@@ -168,8 +221,8 @@ async function removeUserFromGroup(id) {
         const groupId = localStorage.getItem('groupid');
         const response = await axios.delete(`http://${host}:7000/group/removeUser/?groupId=${groupId}&id=${id}`)
         alert(response.data.message);
-        document.getElementById('removeuser').innerHTML='';
-    } catch(err) {
+        document.getElementById('removeuser').innerHTML = '';
+    } catch (err) {
         console.log(err);
     }
 }

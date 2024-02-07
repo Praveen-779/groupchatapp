@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
 const path = require('path');
+// const multer = require('multer');
 
 const sequelize = require('./util/database');
 
@@ -12,6 +13,7 @@ const UserGroup = require('./models/usergroup');
 const Group = require('./models/group');
 const Invite = require('./models/invite');
 const IsAdmin = require('./models/isadmin');
+const MultiMedia = require('./models/multimedia');
 
 const app = express();
 
@@ -20,12 +22,15 @@ const messageRoutes = require('./routes/message');
 const groupRoutes = require('./routes/group');
 const inviteRoutes = require('./routes/invite');
 const adminRoutes = require('./routes/admin');
+const sendfileRoutes = require('./routes/sendfile');
 
 app.use(
     cors({
         origin: '*'
     })
 );
+
+// const upload = multer({ dest: 'uploads/' });
 
 
 app.use(express.json());
@@ -35,6 +40,7 @@ app.use('/message',messageRoutes);
 app.use('/group',groupRoutes);
 app.use('/invite',inviteRoutes);
 app.use('/admin',adminRoutes);
+app.use('/file',sendfileRoutes);
 
 app.use((req, res) => {
     console.log(`${req.url}`);
